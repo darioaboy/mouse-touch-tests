@@ -40,11 +40,17 @@ export default function Home() {
 
   if(!canvas.app) return <div>Loading...</div>
 
+  const clearHistory = () => {
+    canvas.history = [];
+    setHistory([])
+  }
+
   return <div>
-    <h1>Browser: {browser}</h1>
-    <h1>OS: {os}</h1>
-    <h1 onClick={() => canvas.switchPointerMove()}>Pointer move enabled: {canvas.pointerMoveEnabled ? 'true' : 'false'}</h1>
-    <h1 onClick={() => canvas.switchTouchMove()}>Touch move enabled: {canvas.touchMoveEnabled ? 'true' : 'false'}</h1>
+    <h3>Browser: {browser}</h3>
+    <h3>OS: {os}</h3>
+    <h3 onClick={() => canvas.switchPointerMove()}>Pointer move enabled: {canvas.pointerMoveEnabled ? 'true' : 'false'}</h3>
+    <h3 onClick={() => canvas.switchTouchMove()}>Touch move enabled: {canvas.touchMoveEnabled ? 'true' : 'false'}</h3>
+    <button onClick={clearHistory}>Clear history </button>
     <div style={{ height: '300px', overflowY: 'scroll', border: '1px solid white' }}>
       {history.map((item, index) => <div key={index}>{item}</div>)}
     </div>
