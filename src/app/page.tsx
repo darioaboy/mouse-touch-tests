@@ -6,7 +6,8 @@ import { Canvas } from './canvas'
 const canvas = new Canvas()
 
 export default function Home() {
-  const parser = new UAParser(window.navigator.userAgent)
+  const [browser, setBrowser] = useState<string>('')
+  const [os, setOs] = useState<string>('')
   const [history, setHistory] = useState<string[]>([])
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export default function Home() {
 
       document.getElementById('pixi-canvas')?.appendChild(canvas.app.canvas)
 
-      window.addEventListener('mousewheel', (event) => {
+      window?.addEventListener('mousewheel', (event) => {
         event.preventDefault()
       }, { passive: false })
       
@@ -24,6 +25,10 @@ export default function Home() {
         setHistory([...canvas.history])
       })
     }
+
+    const parser = new UAParser(window.navigator.userAgent)
+    setBrowser(parser.getBrowser().name ?? '')
+    setOs(parser.getOS().name ?? '')
 
     initCanvas()
 
@@ -36,8 +41,8 @@ export default function Home() {
   if(!canvas.app) return <div>Loading...</div>
 
   return <div>
-    <h1>Browser: {parser.getBrowser().name}</h1>
-    <h1>OS: {parser.getOS().name}</h1>
+    <h1>Browser: {browser}</h1>
+    <h1>OS: {os}</h1>
     <h1 onClick={() => canvas.switchPointerMove()}>Pointer move enabled: {canvas.pointerMoveEnabled ? 'true' : 'false'}</h1>
     <h1 onClick={() => canvas.switchTouchMove()}>Touch move enabled: {canvas.touchMoveEnabled ? 'true' : 'false'}</h1>
     <div style={{ height: '300px', overflowY: 'scroll', border: '1px solid white' }}>
